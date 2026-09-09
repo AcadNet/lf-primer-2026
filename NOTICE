@@ -1,0 +1,38 @@
+Line Follower Primer — AcadNet Summer School
+Copyright (c) 2026 Sabin Andrei
+
+Upstream project
+----------------
+Hardware design, shield schematic, assembly documentation and the
+pre-configured MCUXpresso project come from the NXP Line Follower project:
+
+    https://gitfront.io/r/cristiannxp/xHvo63TFm7h4/NXP-Linefollower/
+
+Its licensing, as stated by that project:
+
+    Hardware (PCB, schematics, CAD)   CERN-OHL-S-2.0
+    Documentation (markdown, images)  CC BY-SA 4.0
+    Software (firmware, examples)     MIT
+
+Material in this repository derived from it:
+
+  * source/hbridge.c, include/hbridge.h
+        Adapted from the upstream source/hbridge.c and include/hbridge.h.
+        Behaviour on the motors is unchanged. Differences: an unused local
+        removed, a self-assignment in HbridgeInit() dropped, motors explicitly
+        stopped at init, and the DRV8833 duty-cycle rule documented.
+
+  * docs/hardware.md
+        Condensed from the upstream README.md, docs/components.md and
+        docs/programming.md.
+
+  * docs/toolchain.md
+        Condensed from the upstream docs/programming.md (steps 1, 2, 3).
+
+No upstream images, schematics or PCB files are redistributed here. Follow the
+link above for those.
+
+Third-party components
+----------------------
+  * MCUXpresso SDK for MCXN947 — Copyright NXP Semiconductors, BSD-3-Clause.
+    Not redistributed here; install it through MCUXpresso IDE.
