@@ -15,6 +15,7 @@
 #include "robot.h"
 
 #include "board.h"
+#include "app.h"
 #include "peripherals.h"
 #include "pin_mux.h"
 #include "hbridge.h"

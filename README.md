@@ -97,16 +97,19 @@ which calls the NXP SDK's `GPIO_PinWrite()` and
 ## Repository layout
 
 ```
-include/robot.h      the four functions above — the student-facing API
-include/hbridge.h    project-level H-bridge wrapper (not NXP SDK)
-source/robot.c       maps LEFT/RIGHT onto the physical motors
-source/hbridge.c     PWM + direction, documented DRV8833 truth table
-source/main.c        Workshop 1 starter — this is the file you edit
-tasks/task1.md       Task 1
-docs/workshop1.md    Workshop 1 walkthrough
-docs/hardware.md     board, shield, pins, sensors, safety
-docs/toolchain.md    install, import, build, flash
-docs/roadmap.md      what Workshops 2–4 will cover
+include/robot.h            the four functions above — the student-facing API
+include/hbridge.h          project-level H-bridge wrapper (not NXP SDK)
+source/robot.c             maps LEFT/RIGHT onto the physical motors
+source/hbridge.c           PWM + direction, documented DRV8833 truth table
+source/main.c              Workshop 1 starter — this is the file you edit
+starters/workshop2/main.c  Workshop 2 starter — copy it over source/main.c
+tasks/task1.md             Task 1 — basic movement
+tasks/task2.md             Task 2 — drive a square
+docs/workshop1.md          Workshop 1 walkthrough
+docs/workshop2.md          Workshop 2 walkthrough
+docs/hardware.md           board, shield, pins, sensors, safety
+docs/toolchain.md          install, import, build, flash
+docs/roadmap.md            what Workshops 3–4 will cover
 ```
 
 ## Workshops
@@ -114,7 +117,7 @@ docs/roadmap.md      what Workshops 2–4 will cover
 | # | Workshop | Task |
 |---|---|---|
 | 1 | [Controlling the motors](docs/workshop1.md) | [Task 1](tasks/task1.md) — forward, backward, rotate both ways |
-| 2 | State machines | Task 2 — drive a square |
+| 2 | [State machines](docs/workshop2.md) | [Task 2](tasks/task2.md) — design an FSM and drive a square |
 | 3 | Sensors and line following | Task 3 — complete the track |
 | 4 | Speed and tuning | Task 4 — complete it fastest |
 

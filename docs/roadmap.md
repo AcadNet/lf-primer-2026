@@ -1,12 +1,12 @@
 # Workshop roadmap
 
-Four workshops, one task each. Only Workshop 1 is written up in full so far;
-the rest is the plan the repository is built to grow into.
+Four workshops, one task each. Workshops 1 and 2 are written up in full;
+Workshops 3 and 4 are the plan the repository is built to grow into.
 
 | # | Workshop | Task | Scored on |
 |---|---|---|---|
 | 1 | Installation + motor control | Forward, backward, rotate left, rotate right | 25% per movement, final stop required |
-| 2 | Finite state machines | Drive a square: forward + in-place rotations | Shape of the path, open loop |
+| 2 | Finite state machines | Design an FSM and drive a square | FSM structure, corners, closing the path |
 | 3 | Sensor bar + line following | Complete the real track | Completion, no time limit |
 | 4 | Speed and tuning | Complete the same track as fast as possible | Time, relative to the best run |
 
@@ -19,17 +19,25 @@ nothing else — no sensors, no state machines, no control theory.
 
 ## Workshop 2 — state machines
 
-Introduce `enum State` and `switch (state)`:
+[docs/workshop2.md](workshop2.md) · [tasks/task2.md](../tasks/task2.md) ·
+starter in [starters/workshop2/](../starters/workshop2/)
+
+Introduce `enum State`, `switch (state)` and a 10 ms tick loop with a
+per-state stopwatch, replacing the blocking `wait_ms()` chains of Workshop 1.
 
 ```
-forward -> rotate ~90° -> forward -> rotate ~90° -> ...
+START -> EDGE -> TURN -> EDGE -> TURN -> ... -> DONE
 ```
+
+Students design the machine themselves: one initial state, one state per
+edge of the square, turn states between them, one final state. The diagram
+comes before the code.
 
 A marker on the robot draws its approximate square. Still fully open loop —
 the robot has no idea where it actually is, and discovering that limitation
-is the point.
-
-Adds: `tasks/task2.md`, `docs/workshop2.md`.
+is the point. The tick loop is chosen so that Workshop 3 can swap the
+"enough time has passed" transition condition for "the sensors saw
+something" without restructuring anything.
 
 ## Workshop 3 — sensors and line following
 

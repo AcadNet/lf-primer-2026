@@ -1,6 +1,6 @@
 # Task 1 — Basic Movement
 
-[← Workshop 1](../docs/workshop1.md)
+[← Workshop 1](../docs/workshop1.md) · [Workshop 2 →](../docs/workshop2.md)
 
 ## Goal
 

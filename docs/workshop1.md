@@ -1,6 +1,6 @@
 # Workshop 1 — Controlling the motors
 
-[← README](../README.md) · [Task 1 →](../tasks/task1.md)
+[← README](../README.md) · [Task 1 →](../tasks/task1.md) · [Workshop 2 →](workshop2.md)
 
 ## Goal
 
