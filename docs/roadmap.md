@@ -1,7 +1,7 @@
 # Workshop roadmap
 
-Four workshops, one task each. Workshops 1 and 2 are written up in full;
-Workshops 3 and 4 are the plan the repository is built to grow into.
+Four workshops, one task each. Workshops 1 to 3 are written up in full;
+Workshop 4 is the plan the repository is built to grow into.
 
 | # | Workshop | Task | Scored on |
 |---|---|---|---|
@@ -41,26 +41,27 @@ something" without restructuring anything.
 
 ## Workshop 3 — sensors and line following
 
-Expose one new function:
+[docs/workshop3.md](workshop3.md) · [tasks/task3.md](../tasks/task3.md) ·
+starter in [starters/workshop3/](../starters/workshop3/)
 
-```c
-uint8_t sensors_read(void);
-```
-
-Then the chain:
+Adds two functions to the API — `sensors_read()` and `sensors_print()` — and
+follows the chain:
 
 ```
 sensor pattern -> line position -> error -> motor correction
 ```
 
-Start with bang-bang or plain proportional control. The task is only to
-finish the real course; speed does not matter.
+Students build bang-bang control first, see it wobble, and only then meet
+proportional control, so the reason for the error term is something they
+have already felt rather than something they were told.
 
-The primer API should normalise polarity so students always see
-`1 = sensor sees the line`, regardless of what the LM339 comparators output.
-See [hardware.md](hardware.md).
+`sensors_read()` normalises polarity and left-to-right order inside
+`robot.c`, so student code always sees "bit 0 is the leftmost sensor, 1 means
+line". Both switches must be checked on the real robot before the session —
+see [hardware.md](hardware.md) and the comment block in
+[`source/robot.c`](../source/robot.c).
 
-Adds: `tasks/task3.md`, `docs/workshop3.md`.
+The task is only to finish the real course; speed does not matter.
 
 ## Workshop 4 — speed and tuning
 

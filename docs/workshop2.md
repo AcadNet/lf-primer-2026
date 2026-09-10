@@ -1,6 +1,6 @@
 # Workshop 2 — State machines
 
-[← Workshop 1](workshop1.md) · [Task 2 →](../tasks/task2.md)
+[← Workshop 1](workshop1.md) · [Task 2 →](../tasks/task2.md) · [Workshop 3 →](workshop3.md)
 
 ## Goal
 

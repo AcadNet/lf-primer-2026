@@ -94,6 +94,26 @@ Under the hood `motors_set()` calls the project's `HbridgeSpeed()` wrapper,
 which calls the NXP SDK's `GPIO_PinWrite()` and
 `CTIMER_UpdatePwmDutycycle()`. You never call those yourself.
 
+## The sensor API
+
+From Workshop 3 onwards the robot can also see. Two more functions, and
+that is the whole interface:
+
+```c
+uint8_t sensors_read(void);   // one bit per sensor, 1 = over the line
+void    sensors_print(void);  // print the byte to the debug console
+```
+
+The eight infrared sensors come back as one byte, **bit 0 leftmost** through
+**bit 7 rightmost**, and a bit is `1` whenever that sensor is over the line:
+
+```
+sensors_read()  ->  0b00011000     the line is under the middle two
+```
+
+Polarity and left-to-right order are normalised inside `robot.c`, so this
+holds however the bar happens to be wired.
+
 ## Repository layout
 
 ```
@@ -103,13 +123,16 @@ source/robot.c             maps LEFT/RIGHT onto the physical motors
 source/hbridge.c           PWM + direction, documented DRV8833 truth table
 source/main.c              Workshop 1 starter — this is the file you edit
 starters/workshop2/main.c  Workshop 2 starter — copy it over source/main.c
+starters/workshop3/main.c  Workshop 3 starter — copy it over source/main.c
 tasks/task1.md             Task 1 — basic movement
 tasks/task2.md             Task 2 — drive a square
+tasks/task3.md             Task 3 — follow the line
 docs/workshop1.md          Workshop 1 walkthrough
 docs/workshop2.md          Workshop 2 walkthrough
+docs/workshop3.md          Workshop 3 walkthrough
 docs/hardware.md           board, shield, pins, sensors, safety
 docs/toolchain.md          install, import, build, flash
-docs/roadmap.md            what Workshops 3–4 will cover
+docs/roadmap.md            what Workshop 4 will cover
 ```
 
 ## Workshops
@@ -118,7 +141,7 @@ docs/roadmap.md            what Workshops 3–4 will cover
 |---|---|---|
 | 1 | [Controlling the motors](docs/workshop1.md) | [Task 1](tasks/task1.md) — forward, backward, rotate both ways |
 | 2 | [State machines](docs/workshop2.md) | [Task 2](tasks/task2.md) — design an FSM and drive a square |
-| 3 | Sensors and line following | Task 3 — complete the track |
+| 3 | [Sensors and line following](docs/workshop3.md) | [Task 3](tasks/task3.md) — bang-bang and proportional control |
 | 4 | Speed and tuning | Task 4 — complete it fastest |
 
 See [docs/roadmap.md](docs/roadmap.md) for what is coming.

@@ -1,6 +1,6 @@
 # Task 2 — Drive a square
 
-[← Workshop 2](../docs/workshop2.md)
+[← Workshop 2](../docs/workshop2.md) · [Workshop 3 →](../docs/workshop3.md)
 
 ## Goal
 

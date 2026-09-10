@@ -20,6 +20,8 @@
 #include "pin_mux.h"
 #include "hbridge.h"
 #include "fsl_common.h"
+#include "fsl_gpio.h"
+#include "fsl_debug_console.h"
 
 #ifndef SystemCoreClock
 extern uint32_t SystemCoreClock;
@@ -44,6 +46,29 @@ extern uint32_t SystemCoreClock;
 #define ROBOT_SWAP_MOTORS   0
 #define ROBOT_INVERT_LEFT   0
 #define ROBOT_INVERT_RIGHT  0
+
+/*
+ * Sensor bar normalisation.
+ *
+ * The shield digitises the eight infrared sensors through LM339
+ * comparators, and both the polarity and the physical order depend on how
+ * the bar is wired and mounted. sensors_read() hides that, so student code
+ * always sees "bit 0 is the leftmost sensor, 1 means it is over the line".
+ *
+ * VERIFY BOTH ON YOUR ROBOT ONCE, before Workshop 3. Hold the robot over
+ * the track and call sensors_print() in a loop:
+ *
+ *   - Off the line entirely, every bit should read 0. If they all read 1,
+ *     set SENSORS_ACTIVE_LOW to 1.
+ *
+ *   - Slide the robot so the line sits under its far LEFT sensor. The
+ *     leftmost printed digit should be the 1. If the 1 appears at the
+ *     right-hand end instead, set SENSORS_REVERSED to 1.
+ *
+ * Fix it here, once. Students must never compensate in their own code.
+ */
+#define SENSORS_ACTIVE_LOW  0
+#define SENSORS_REVERSED    0
 
 static int clamp_speed(int v)
 {
@@ -105,4 +130,69 @@ void motors_stop(void)
 void wait_ms(uint32_t ms)
 {
     SDK_DelayAtLeastUs(ms * 1000U, SystemCoreClock);
+}
+
+/*
+ * Raw sensor bits, exactly as the pins read: bit 0 is S10, bit 7 is S17.
+ * No polarity or ordering fix-ups yet - that is sensors_read()'s job.
+ */
+static uint8_t sensors_raw(void)
+{
+    uint8_t bits = 0U;
+
+    if (GPIO_PinRead(BOARD_INITPINS_S10_GPIO, BOARD_INITPINS_S10_GPIO_PIN)) bits |= (1U << 0);
+    if (GPIO_PinRead(BOARD_INITPINS_S11_GPIO, BOARD_INITPINS_S11_GPIO_PIN)) bits |= (1U << 1);
+    if (GPIO_PinRead(BOARD_INITPINS_S12_GPIO, BOARD_INITPINS_S12_GPIO_PIN)) bits |= (1U << 2);
+    if (GPIO_PinRead(BOARD_INITPINS_S13_GPIO, BOARD_INITPINS_S13_GPIO_PIN)) bits |= (1U << 3);
+    if (GPIO_PinRead(BOARD_INITPINS_S14_GPIO, BOARD_INITPINS_S14_GPIO_PIN)) bits |= (1U << 4);
+    if (GPIO_PinRead(BOARD_INITPINS_S15_GPIO, BOARD_INITPINS_S15_GPIO_PIN)) bits |= (1U << 5);
+    if (GPIO_PinRead(BOARD_INITPINS_S16_GPIO, BOARD_INITPINS_S16_GPIO_PIN)) bits |= (1U << 6);
+    if (GPIO_PinRead(BOARD_INITPINS_S17_GPIO, BOARD_INITPINS_S17_GPIO_PIN)) bits |= (1U << 7);
+
+    return bits;
+}
+
+uint8_t sensors_read(void)
+{
+    uint8_t bits = sensors_raw();
+
+#if SENSORS_ACTIVE_LOW
+    /* Comparators pull low over the line: flip so 1 always means "line". */
+    bits = (uint8_t)(~bits);
+#endif
+
+#if SENSORS_REVERSED
+    /* The bar is mounted the other way round: reverse the bit order so
+     * bit 0 is the leftmost sensor again. */
+    {
+        uint8_t swapped = 0U;
+        int     i;
+
+        for (i = 0; i < 8; i++)
+        {
+            if (bits & (uint8_t)(1U << i))
+            {
+                swapped |= (uint8_t)(1U << (7 - i));
+            }
+        }
+
+        bits = swapped;
+    }
+#endif
+
+    return bits;
+}
+
+void sensors_print(void)
+{
+    uint8_t bits = sensors_read();
+    int     i;
+
+    /* Leftmost sensor first, so the screen matches the robot. */
+    PRINTF("S = ");
+    for (i = 0; i < 8; i++)
+    {
+        PRINTF("%d", (bits >> i) & 1U);
+    }
+    PRINTF("\r\n");
 }

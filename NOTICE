@@ -22,6 +22,13 @@ Material in this repository derived from it:
         removed, a self-assignment in HbridgeInit() dropped, motors explicitly
         stopped at init, and the DRV8833 duty-cycle rule documented.
 
+  * source/robot.c (sensors_read, sensors_raw)
+        The per-sensor GPIO reads and the bit packing (bit 0 = S10 through
+        bit 7 = S17) follow the upstream source/main.c read_sensors() and the
+        raw_S10()..raw_S17() helpers. Added here: polarity and left-to-right
+        order normalisation, so callers always see "bit 0 is the leftmost
+        sensor, 1 means over the line".
+
   * docs/hardware.md
         Condensed from the upstream README.md, docs/components.md and
         docs/programming.md.
